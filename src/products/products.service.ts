@@ -20,7 +20,7 @@ export class ProductsService {
   constructor(@Inject(PG_POOL) private readonly pool: Pool) {}
 
   async createProduct(
-    orgId: string,
+    orgId: number,
     userCode: string,
     dto: CreateProductDto,
   ): Promise<{ message: string; productId: string }> {
@@ -94,7 +94,7 @@ export class ProductsService {
     }
   }
 
-  async listProducts(orgId: string): Promise<ProductListRow[]> {
+  async listProducts(orgId: number): Promise<ProductListRow[]> {
     const result: QueryResult<ProductListRow> = await this.pool.query(
       `
       WITH recipe_costs AS (
@@ -204,7 +204,7 @@ export class ProductsService {
   }
 
   async getProductById(
-    orgId: string,
+    orgId: number,
     productId: string,
   ): Promise<ProductDetailRow> {
     const result: QueryResult<ProductDetailRow> = await this.pool.query(
@@ -358,7 +358,7 @@ export class ProductsService {
   }
 
   async updateProduct(
-    orgId: string,
+    orgId: number,
     userCode: string,
     productId: string,
     dto: UpdateProductDto,
@@ -484,7 +484,7 @@ export class ProductsService {
     }
   }
 
-  async deleteProduct(orgId: string, productId: string): Promise<void> {
+  async deleteProduct(orgId: number, productId: string): Promise<void> {
     const result = await this.pool.query(
       `
       DELETE FROM finished_products
@@ -499,7 +499,7 @@ export class ProductsService {
   }
 
   async deleteProductRecipe(
-    orgId: string,
+    orgId: number,
     productId: string,
     recipeId: string,
   ): Promise<void> {
@@ -523,7 +523,7 @@ export class ProductsService {
   }
 
   async deleteProductItem(
-    orgId: string,
+    orgId: number,
     productId: string,
     itemId: string,
   ): Promise<void> {

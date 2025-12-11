@@ -5,6 +5,7 @@ import {
   Delete,
   Get,
   Param,
+  ParseIntPipe,
   Patch,
   Post,
   UseGuards,
@@ -27,7 +28,7 @@ export class EmployeesController {
   @UseGuards(OrgParamGuard('orgId'))
   @Roles(OrgRole.OWNER, OrgRole.MANAGER)
   @Get(':orgId/return_list')
-  listEmployees(@Param('orgId') orgId: string) {
+  listEmployees(@Param('orgId', ParseIntPipe) orgId: number) {
     return this.employeesService.listEmployees(orgId);
   }
 
@@ -36,7 +37,7 @@ export class EmployeesController {
   @Roles(OrgRole.OWNER, OrgRole.MANAGER)
   @Get(':orgId/:memberId/return_single_employee')
   getEmployeeById(
-    @Param('orgId') orgId: string,
+    @Param('orgId', ParseIntPipe) orgId: number,
     @Param('memberId') memberId: string,
   ) {
     return this.employeesService.getEmployeeById(orgId, memberId);
@@ -47,7 +48,7 @@ export class EmployeesController {
   @Roles(OrgRole.OWNER, OrgRole.MANAGER)
   @Post(':orgId/create')
   createEmployee(
-    @Param('orgId') orgId: string,
+    @Param('orgId', ParseIntPipe) orgId: number,
     @Body() dto: CreateEmployeeDto,
   ) {
     return this.employeesService.createEmployee(orgId, dto);
@@ -58,7 +59,7 @@ export class EmployeesController {
   @Roles(OrgRole.OWNER, OrgRole.MANAGER)
   @Patch(':orgId/:memberId/update_employee')
   updateEmployee(
-    @Param('orgId') orgId: string,
+    @Param('orgId', ParseIntPipe) orgId: number,
     @Param('memberId') memberId: string,
     @Body() dto: UpdateEmployeeDto,
   ) {
@@ -70,7 +71,7 @@ export class EmployeesController {
   @Roles(OrgRole.OWNER, OrgRole.MANAGER)
   @Delete(':orgId/:memberId/delete_employee')
   deleteEmployee(
-    @Param('orgId') orgId: string,
+    @Param('orgId', ParseIntPipe) orgId: number,
     @Param('memberId') memberId: string,
   ) {
     return this.employeesService.deleteEmployee(orgId, memberId);

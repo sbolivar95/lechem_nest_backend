@@ -14,7 +14,7 @@ import { PG_POOL } from 'src/db/db.module';
 export class CategoriesService {
   constructor(@Inject(PG_POOL) private readonly pool: Pool) {}
 
-  async create(orgId: string, dto: CreateCategoryDto): Promise<CategoryRow> {
+  async create(orgId: number, dto: CreateCategoryDto): Promise<CategoryRow> {
     const { name } = dto;
 
     if (!name) {
@@ -33,7 +33,7 @@ export class CategoriesService {
     return result.rows[0];
   }
 
-  async findAll(orgId: string): Promise<CategoryRow[]> {
+  async findAll(orgId: number): Promise<CategoryRow[]> {
     const result: QueryResult<CategoryRow> = await this.pool.query(
       `
       SELECT id, org_id, name

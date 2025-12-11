@@ -20,7 +20,7 @@ import { config } from 'src/config/env';
 export class EmployeesService {
   constructor(@Inject(PG_POOL) private readonly pool: Pool) {}
 
-  async createEmployee(orgId: string, dto: CreateEmployeeDto): Promise<void> {
+  async createEmployee(orgId: number, dto: CreateEmployeeDto): Promise<void> {
     if (!orgId) {
       throw new BadRequestException('Organization and User is required');
     }
@@ -64,7 +64,7 @@ export class EmployeesService {
     }
   }
 
-  async listEmployees(orgId: string): Promise<OrgMemberRow[]> {
+  async listEmployees(orgId: number): Promise<OrgMemberRow[]> {
     if (!orgId) {
       throw new BadRequestException('Organization is required');
     }
@@ -88,7 +88,7 @@ export class EmployeesService {
   }
 
   async getEmployeeById(
-    orgId: string,
+    orgId: number,
     memberId: string,
   ): Promise<OrgMemberRow> {
     if (!orgId || !memberId) {
@@ -118,7 +118,7 @@ export class EmployeesService {
   }
 
   async updateEmployee(
-    orgId: string,
+    orgId: number,
     memberId: string,
     dto: UpdateEmployeeDto,
   ): Promise<OrgMemberUpdateRow> {
@@ -150,7 +150,7 @@ export class EmployeesService {
     }
   }
 
-  async deleteEmployee(orgId: string, memberId: string): Promise<void> {
+  async deleteEmployee(orgId: number, memberId: string): Promise<void> {
     if (!orgId || !memberId) {
       throw new BadRequestException('Organization and Member are required');
     }

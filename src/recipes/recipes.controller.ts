@@ -9,6 +9,7 @@ import {
   Post,
   Put,
   UseGuards,
+  ParseIntPipe,
 } from '@nestjs/common';
 import { RecipesService } from './recipes.service';
 import { CreateRecipeDto } from './dto/create-recipe.dto';
@@ -30,7 +31,7 @@ export class RecipesController {
   @Roles(OrgRole.OWNER, OrgRole.MANAGER)
   @Post(':orgId/recipes/create')
   createRecipe(
-    @Param('orgId') orgId: string,
+    @Param('orgId', ParseIntPipe) orgId: number,
     @Body() dto: CreateRecipeDto,
     @Req() _req: JwtRequest,
   ) {
@@ -41,7 +42,7 @@ export class RecipesController {
   @UseGuards(OrgParamGuard('orgId'))
   @Roles(OrgRole.OWNER, OrgRole.MANAGER)
   @Get(':orgId/recipes/return_list')
-  listRecipes(@Param('orgId') orgId: string) {
+  listRecipes(@Param('orgId', ParseIntPipe) orgId: number) {
     return this.recipesService.listRecipes(orgId);
   }
 
@@ -50,7 +51,7 @@ export class RecipesController {
   @Roles(OrgRole.OWNER, OrgRole.MANAGER)
   @Get(':orgId/recipes/:recipeId/return_single_recipe')
   getRecipeById(
-    @Param('orgId') orgId: string,
+    @Param('orgId', ParseIntPipe) orgId: number,
     @Param('recipeId') recipeId: string,
   ) {
     return this.recipesService.getRecipeById(orgId, recipeId);
@@ -61,7 +62,7 @@ export class RecipesController {
   @Roles(OrgRole.OWNER, OrgRole.MANAGER)
   @Patch(':orgId/:userCode/recipes/:recipeId/update_recipe')
   updateRecipe(
-    @Param('orgId') orgId: string,
+    @Param('orgId', ParseIntPipe) orgId: number,
     @Param('userCode') userCode: string,
     @Param('recipeId') recipeId: string,
     @Body() dto: UpdateRecipeDto,
@@ -74,7 +75,7 @@ export class RecipesController {
   @Roles(OrgRole.OWNER, OrgRole.MANAGER)
   @Delete(':orgId/recipes/:recipeId/delete_recipe')
   deleteRecipe(
-    @Param('orgId') orgId: string,
+    @Param('orgId', ParseIntPipe) orgId: number,
     @Param('recipeId') recipeId: string,
   ) {
     return this.recipesService.deleteRecipe(orgId, recipeId);
@@ -85,7 +86,7 @@ export class RecipesController {
   @Roles(OrgRole.OWNER, OrgRole.MANAGER)
   @Get(':orgId/recipes/:recipeId/items')
   listRecipeItems(
-    @Param('orgId') orgId: string,
+    @Param('orgId', ParseIntPipe) orgId: number,
     @Param('recipeId') recipeId: string,
   ) {
     return this.recipesService.listRecipeItems(orgId, recipeId);
@@ -96,7 +97,7 @@ export class RecipesController {
   @Roles(OrgRole.OWNER, OrgRole.MANAGER)
   @Put(':orgId/recipes/:recipeId/items/:itemId/update_recipe_item')
   upsertRecipeItem(
-    @Param('orgId') orgId: string,
+    @Param('orgId', ParseIntPipe) orgId: number,
     @Param('recipeId') recipeId: string,
     @Param('itemId') itemId: string,
     @Body('qty_g') qty_g: number,
@@ -116,7 +117,7 @@ export class RecipesController {
   @Roles(OrgRole.OWNER, OrgRole.MANAGER)
   @Delete(':orgId/recipes/:recipeId/items/:itemId/delete_recipe_item')
   deleteRecipeItem(
-    @Param('orgId') orgId: string,
+    @Param('orgId', ParseIntPipe) orgId: number,
     @Param('recipeId') recipeId: string,
     @Param('itemId') itemId: string,
   ) {

@@ -8,6 +8,7 @@ import {
   Param,
   Body,
   UseGuards,
+  ParseIntPipe,
 } from '@nestjs/common';
 import { ItemsService } from './items.service';
 import { CreateItemDto } from './dto/create-item.dto';
@@ -29,7 +30,7 @@ export class ItemsController {
   @Roles(OrgRole.OWNER, OrgRole.MANAGER)
   @Post(':orgId/items/create')
   createItem(
-    @Param('orgId') orgId: string,
+    @Param('orgId', ParseIntPipe) orgId: number,
     @Body() dto: CreateItemDto,
     @Req() _req: JwtRequest,
   ) {
@@ -40,14 +41,17 @@ export class ItemsController {
   // GET /orgs/:orgId/items/get
   @UseGuards(RolesGuard, JwtAuthGuard, OrgParamGuard('orgId'))
   @Get(':orgId/items/get')
-  listItems(@Param('orgId') orgId: string) {
+  listItems(@Param('orgId', ParseIntPipe) orgId: number) {
     return this.itemsService.listItems(orgId);
   }
 
   // GET /orgs/:orgId/items/:itemId/get_by_id
   @UseGuards(RolesGuard, JwtAuthGuard, OrgParamGuard('orgId'))
   @Get(':orgId/items/:itemId/get_by_id')
-  getItemById(@Param('orgId') orgId: string, @Param('itemId') itemId: string) {
+  getItemById(
+    @Param('orgId', ParseIntPipe) orgId: number,
+    @Param('itemId') itemId: string,
+  ) {
     return this.itemsService.getItemById(orgId, itemId);
   }
 
@@ -56,7 +60,7 @@ export class ItemsController {
   @Roles(OrgRole.OWNER, OrgRole.MANAGER)
   @Patch(':orgId/items/:itemId/update')
   updateItem(
-    @Param('orgId') orgId: string,
+    @Param('orgId', ParseIntPipe) orgId: number,
     @Param('itemId') itemId: string,
     @Body() dto: UpdateItemDto,
     @Req() _req: JwtRequest,
@@ -68,7 +72,10 @@ export class ItemsController {
   @UseGuards(RolesGuard, JwtAuthGuard, OrgParamGuard('orgId'))
   @Roles(OrgRole.OWNER, OrgRole.MANAGER)
   @Delete(':orgId/items/:itemId/delete')
-  deleteItem(@Param('orgId') orgId: string, @Param('itemId') itemId: string) {
+  deleteItem(
+    @Param('orgId', ParseIntPipe) orgId: number,
+    @Param('itemId') itemId: string,
+  ) {
     return this.itemsService.deleteItem(orgId, itemId);
   }
 

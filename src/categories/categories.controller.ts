@@ -7,6 +7,7 @@ import {
   Param,
   Delete,
   UseGuards,
+  ParseIntPipe,
 } from '@nestjs/common';
 import { CategoriesService } from './categories.service';
 import { CreateCategoryDto } from './dto/create-category.dto';
@@ -24,13 +25,16 @@ export class CategoriesController {
   @UseGuards(RolesGuard, JwtAuthGuard, OrgParamGuard('orgId'))
   @Roles(OrgRole.OWNER, OrgRole.MANAGER)
   @Post(':orgId/create')
-  create(@Param('orgId') orgId: string, @Body() dto: CreateCategoryDto) {
+  create(
+    @Param('orgId', ParseIntPipe) orgId: number,
+    @Body() dto: CreateCategoryDto,
+  ) {
     return this.categoriesService.create(orgId, dto);
   }
 
   @UseGuards(JwtAuthGuard, OrgParamGuard('orgId'))
   @Get(':orgId/find_all')
-  findAll(@Param('orgId') orgId: string) {
+  findAll(@Param('orgId', ParseIntPipe) orgId: number) {
     return this.categoriesService.findAll(orgId);
   }
 

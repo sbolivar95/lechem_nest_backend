@@ -16,7 +16,7 @@ export class ItemsService {
   constructor(@Inject(PG_POOL) private readonly pool: Pool) {}
 
   async createItem(
-    orgId: string,
+    orgId: number,
     dto: CreateItemDto,
     userId: string,
   ): Promise<ItemRow> {
@@ -83,7 +83,7 @@ export class ItemsService {
     return result.rows[0];
   }
 
-  async listItems(orgId: string): Promise<ItemListRow[]> {
+  async listItems(orgId: number): Promise<ItemListRow[]> {
     const result: QueryResult<ItemListRow> = await this.pool.query(
       `
       SELECT
@@ -108,7 +108,7 @@ export class ItemsService {
     return result.rows;
   }
 
-  async getItemById(orgId: string, itemId: string): Promise<ItemRow> {
+  async getItemById(orgId: number, itemId: string): Promise<ItemRow> {
     const result: QueryResult<ItemRow> = await this.pool.query(
       `
       SELECT *
@@ -126,7 +126,7 @@ export class ItemsService {
   }
 
   async updateItem(
-    orgId: string,
+    orgId: number,
     userId: string,
     itemId: string,
     dto: UpdateItemDto,
@@ -190,7 +190,7 @@ export class ItemsService {
     return item;
   }
 
-  async deleteItem(orgId: string, itemId: string): Promise<void> {
+  async deleteItem(orgId: number, itemId: string): Promise<void> {
     const result = await this.pool.query(
       `
       DELETE FROM items

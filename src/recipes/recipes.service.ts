@@ -20,7 +20,7 @@ export class RecipesService {
   constructor(@Inject(PG_POOL) private readonly pool: Pool) {}
 
   async createRecipe(
-    orgId: string,
+    orgId: number,
     userCode: string,
     dto: CreateRecipeDto,
   ): Promise<{ message: string; recipeId: string }> {
@@ -84,7 +84,7 @@ export class RecipesService {
     }
   }
 
-  async listRecipes(orgId: string): Promise<RecipeListRow[]> {
+  async listRecipes(orgId: number): Promise<RecipeListRow[]> {
     const result: QueryResult<RecipeListRow> = await this.pool.query(
       `
       SELECT
@@ -135,7 +135,7 @@ export class RecipesService {
     return result.rows;
   }
 
-  async getRecipeById(orgId: string, recipeId: string): Promise<RecipeRow> {
+  async getRecipeById(orgId: number, recipeId: string): Promise<RecipeRow> {
     const result: QueryResult<RecipeRow> = await this.pool.query(
       `
       SELECT *
@@ -153,7 +153,7 @@ export class RecipesService {
   }
 
   async updateRecipe(
-    orgId: string,
+    orgId: number,
     recipeId: string,
     userCode: string,
     dto: UpdateRecipeDto,
@@ -203,7 +203,7 @@ export class RecipesService {
     return recipe;
   }
 
-  async deleteRecipe(orgId: string, recipeId: string): Promise<void> {
+  async deleteRecipe(orgId: number, recipeId: string): Promise<void> {
     const result = await this.pool.query(
       `
       DELETE FROM recipes
@@ -218,7 +218,7 @@ export class RecipesService {
   }
 
   async listRecipeItems(
-    orgId: string,
+    orgId: number,
     recipeId: string,
   ): Promise<RecipeItemRow[]> {
     const result: QueryResult<RecipeItemRow> = await this.pool.query(
@@ -244,7 +244,7 @@ export class RecipesService {
   }
 
   async upsertRecipeItem(
-    orgId: string,
+    orgId: number,
     recipeId: string,
     itemId: string,
     qty_g: number,
@@ -282,7 +282,7 @@ export class RecipesService {
   }
 
   async deleteRecipeItem(
-    orgId: string,
+    orgId: number,
     recipeId: string,
     itemId: string,
   ): Promise<void> {

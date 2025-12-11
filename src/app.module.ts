@@ -8,9 +8,21 @@ import { CategoriesModule } from './categories/categories.module';
 import { RecipesModule } from './recipes/recipes.module';
 import { ProductsModule } from './products/products.module';
 import { EmployeesModule } from './employees/employees.module';
+import { SaleProductsModule } from './sale-products/sale-products.module';
+import { OrdersModule } from './orders/orders.module';
 
 @Module({
-  imports: [DbModule, AuthModule, ItemsModule, CategoriesModule, RecipesModule, ProductsModule, EmployeesModule],
+  imports: [
+    DbModule,
+    AuthModule,
+    ItemsModule,
+    CategoriesModule,
+    RecipesModule,
+    ProductsModule,
+    EmployeesModule,
+    SaleProductsModule,
+    OrdersModule,
+  ],
   controllers: [AppController],
   providers: [AppService],
 })

@@ -5,6 +5,7 @@ import {
   Delete,
   Get,
   Param,
+  ParseIntPipe,
   Patch,
   Post,
   Req,
@@ -29,7 +30,7 @@ export class ProductsController {
   @Roles(OrgRole.OWNER, OrgRole.MANAGER)
   @Post(':orgId/create_product')
   createProduct(
-    @Param('orgId') orgId: string,
+    @Param('orgId', ParseIntPipe) orgId: number,
     @Body() dto: CreateProductDto,
     @Req() _req: JwtRequest,
   ) {
@@ -40,7 +41,7 @@ export class ProductsController {
   @UseGuards(OrgParamGuard('orgId'))
   @Roles(OrgRole.OWNER, OrgRole.MANAGER)
   @Get(':orgId/return_product_list')
-  listProducts(@Param('orgId') orgId: string) {
+  listProducts(@Param('orgId', ParseIntPipe) orgId: number) {
     return this.productsService.listProducts(orgId);
   }
 
@@ -49,7 +50,7 @@ export class ProductsController {
   @Roles(OrgRole.OWNER, OrgRole.MANAGER)
   @Get(':orgId/products/:productId/return_single_product')
   getProductById(
-    @Param('orgId') orgId: string,
+    @Param('orgId', ParseIntPipe) orgId: number,
     @Param('productId') productId: string,
   ) {
     return this.productsService.getProductById(orgId, productId);
@@ -60,7 +61,7 @@ export class ProductsController {
   @Roles(OrgRole.OWNER, OrgRole.MANAGER)
   @Patch(':orgId/products/:productId/update_product')
   updateProduct(
-    @Param('orgId') orgId: string,
+    @Param('orgId', ParseIntPipe) orgId: number,
     @Param('productId') productId: string,
     @Body() dto: UpdateProductDto,
     @Body('userCode') userCode?: string, // or param if you want
@@ -80,7 +81,7 @@ export class ProductsController {
   @Roles(OrgRole.OWNER, OrgRole.MANAGER)
   @Delete(':orgId/products/:productId/delete_product')
   deleteProduct(
-    @Param('orgId') orgId: string,
+    @Param('orgId', ParseIntPipe) orgId: number,
     @Param('productId') productId: string,
   ) {
     return this.productsService.deleteProduct(orgId, productId);
@@ -91,7 +92,7 @@ export class ProductsController {
   @Roles(OrgRole.OWNER, OrgRole.MANAGER)
   @Delete(':orgId/products/:productId/recipes/:recipeId/delete_product_recipe')
   deleteProductRecipe(
-    @Param('orgId') orgId: string,
+    @Param('orgId', ParseIntPipe) orgId: number,
     @Param('productId') productId: string,
     @Param('recipeId') recipeId: string,
   ) {
@@ -103,7 +104,7 @@ export class ProductsController {
   @Roles(OrgRole.OWNER, OrgRole.MANAGER)
   @Delete(':orgId/products/:productId/items/:itemId/delete_product_item')
   deleteProductItem(
-    @Param('orgId') orgId: string,
+    @Param('orgId', ParseIntPipe) orgId: number,
     @Param('productId') productId: string,
     @Param('itemId') itemId: string,
   ) {
